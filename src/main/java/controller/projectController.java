@@ -14,7 +14,8 @@ import util.connectionFactory;
 
 public class projectController {
 
-    public int save(Project project) {
+    private final EntityManager entityManager = null;
+    public void save(Project project) {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -25,8 +26,6 @@ public class projectController {
 
         entityManager.close();
         entityManagerFactory.close();
-
-        return project.getId();
     }
 //    public void save(Project project) {
 //        String sql = "INSERT INTO project (name, "
