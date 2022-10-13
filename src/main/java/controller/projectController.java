@@ -14,46 +14,20 @@ import util.connectionFactory;
 
 public class projectController {
 
-    private EntityManager entityManager = null;
+    private final EntityManager entityManager = null;
+    public void save(Project project) {
 
-    public int save(Project project) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
-       EntityManager entityManager = entityManagerFactory.createEntityManager();
-        
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         entityManager.getTransaction().begin();
-       entityManager.persist(project);
+        entityManager.persist(project);
         entityManager.getTransaction().commit();
-       
+
         entityManager.close();
         entityManagerFactory.close();
-        
-       return project.getId();
     }
-//  public void save(Project project) {
-//        String sql = "INSERT INTO project (name, "
-//                + " description, "
-//                + " createdAt, "
-//                + " updatedAt) VALUES (?, ?, ?, ?)";
-
-//        Connection connection = null;
-//        PreparedStatement statement = null;
-
- //       try {
- //           connection = connectionFactory.getConnection();
-//            statement = connection.prepareStatement(sql);
-
-//            statement.setString(1, project.getName());
-//            statement.setString(2, project.getDescription());
- //           statement.setDate(3, new Date(project.getCreatedAt().getTime()));
-//            statement.setDate(4, new Date(project.getUpdatedAt().getTime()));
-//            statement.execute();
- //       } catch (Exception ex) {
-//            throw new RuntimeException("Erro ao inserir o projeto " + ex.getMessage(), ex);
- //       } finally {
- //           connectionFactory.closeConnection(connection, statement);
- //       }
- //   }
-
+    
     public void update(Project project) {
         String sql = "UPDATE project SET"
                 + "name = ?,"
