@@ -420,7 +420,7 @@ public class MainScreen extends javax.swing.JFrame {
         if (confirmRemove == JOptionPane.YES_OPTION) {
             int projectIndex = jListProjects.getSelectedIndex();
             project = (Project) projectsModel.get(projectIndex);
-            projectController.removeById(project.getId());
+            projectController.removeProject(project.getId());
             loadProjects();
         }
 
