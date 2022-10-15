@@ -42,7 +42,7 @@ public class projectController {
         try {
             Project project = entityManager.find(Project.class, id);
             entityManager.getTransaction().begin();
-            entityManager.remove(project);
+            entityManager.remove(project.getId());
             entityManager.getTransaction().commit();
 
         } catch (Exception e) {

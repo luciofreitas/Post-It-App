@@ -7,43 +7,59 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.Tasks;
 import util.connectionFactory;
 
 public class tasksController {
 
-    public void save(Tasks task) {
-
-        String sql = "INSERT INTO tasks (id_project,"
-                + "name,"
-                + " description,"
-                + " status,"
-                + " note,"
-                + " deadline,"
-                + " createdAt,"
-                + " updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = null;
-        PreparedStatement statement = null;
-
-        try {
-            connection = connectionFactory.getConnection();
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, task.getId_project());
-            statement.setString(2, task.getName());
-            statement.setString(3, task.getDescription());
-            statement.setBoolean(4, task.isStatus());
-            statement.setString(5, task.getNote());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setTimestamp(7, new java.sql.Timestamp(task.getCreatedAt().getTime()));
-            statement.setTimestamp(8, new java.sql.Timestamp(task.getUpdatedAt().getTime()));
-
-            statement.execute();
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao inserir a tarefa " + ex.getMessage(), ex);
-        } finally {
-            connectionFactory.closeConnection(connection, statement);
-        }
+    private EntityManager entityManager = null;
+    public void save (Tasks task){
+        
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        
+        entityManager.getTransaction().begin();
+        entityManager.persist(task);
+        entityManager.getTransaction().commit();
+        
+        entityManager.close();
+        entityManagerFactory.close();
     }
+//    public void save(Tasks task) {
+//
+//        String sql = "INSERT INTO tasks (id_project,"
+//                + "name,"
+//                + " description,"
+//                + " status,"
+//                + " note,"
+//                + " deadline,"
+//                + " createdAt,"
+//                + " updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//
+//        try {
+//            connection = connectionFactory.getConnection();
+//            statement = connection.prepareStatement(sql);
+//            statement.setInt(1, task.getId_project());
+//            statement.setString(2, task.getName());
+//            statement.setString(3, task.getDescription());
+//            statement.setBoolean(4, task.isStatus());
+//            statement.setString(5, task.getNote());
+//            statement.setDate(6, new Date(task.getDeadline().getTime()));
+//            statement.setTimestamp(7, new java.sql.Timestamp(task.getCreatedAt().getTime()));
+//            statement.setTimestamp(8, new java.sql.Timestamp(task.getUpdatedAt().getTime()));
+//
+//            statement.execute();
+//        } catch (SQLException ex) {
+//            throw new RuntimeException("Erro ao inserir a tarefa " + ex.getMessage(), ex);
+//        } finally {
+//            connectionFactory.closeConnection(connection, statement);
+//        }
+//    }
 
     public void update(Tasks task) {
         System.out.println(task.toString());
