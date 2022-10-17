@@ -1,7 +1,6 @@
 package controller;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,114 +14,48 @@ import util.connectionFactory;
 
 public class tasksController {
 
-    private EntityManager entityManager = null;
-    public void save (Tasks task){
-        
+    private final EntityManager entityManager = null;
+
+    public void save(Tasks task) {
+
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        
+
         entityManager.getTransaction().begin();
         entityManager.persist(task);
         entityManager.getTransaction().commit();
-        
+
         entityManager.close();
         entityManagerFactory.close();
     }
-//    public void save(Tasks task) {
-//
-//        String sql = "INSERT INTO tasks (id_project,"
-//                + "name,"
-//                + " description,"
-//                + " status,"
-//                + " note,"
-//                + " deadline,"
-//                + " createdAt,"
-//                + " updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-//        Connection connection = null;
-//        PreparedStatement statement = null;
-//
-//        try {
-//            connection = connectionFactory.getConnection();
-//            statement = connection.prepareStatement(sql);
-//            statement.setInt(1, task.getId_project());
-//            statement.setString(2, task.getName());
-//            statement.setString(3, task.getDescription());
-//            statement.setBoolean(4, task.isStatus());
-//            statement.setString(5, task.getNote());
-//            statement.setDate(6, new Date(task.getDeadline().getTime()));
-//            statement.setTimestamp(7, new java.sql.Timestamp(task.getCreatedAt().getTime()));
-//            statement.setTimestamp(8, new java.sql.Timestamp(task.getUpdatedAt().getTime()));
-//
-//            statement.execute();
-//        } catch (SQLException ex) {
-//            throw new RuntimeException("Erro ao inserir a tarefa " + ex.getMessage(), ex);
-//        } finally {
-//            connectionFactory.closeConnection(connection, statement);
-//        }
-//    }
 
     public void update(Tasks task) {
-        System.out.println(task.toString());
-        String sql = "UPDATE tasks SET "
-                + "name= ?, "
-                + "description= ?, "
-                + "status= ?, "
-                + "note= ?, "
-                + "deadline= ?, "
-                + "createdAt= ?, "
-                + "updatedAt= ?,"
-                + "id_project= ? "
-                + "WHERE id= ? ";
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            //Estabelecendo a conexão com o banco de dados
-            connection = connectionFactory.getConnection();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-            //Preparando a query
-            statement = connection.prepareStatement(sql);
+        entityManager.getTransaction().begin();
+        entityManager.merge(task);
+        entityManager.getTransaction().commit();
 
-            //Setando os valores do statement
-            statement.setString(1, task.getName());
-            statement.setString(2, task.getDescription());
-            statement.setBoolean(3, task.isStatus());
-            statement.setString(4, task.getNote());
-            statement.setDate(5, new Date(task.getDeadline().getTime()));
-            statement.setDate(6, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(7, new Date(task.getUpdatedAt().getTime()));
-            statement.setInt(8, task.getId_project());
-            statement.setInt(9, task.getId());
-
-            //Executando a query
-            statement.execute();
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao atualizar a tarefa " + ex.getMessage(), ex);
-        } finally {
-            connectionFactory.closeConnection(connection, statement);
-        }
+        entityManager.close();
+        entityManagerFactory.close();
     }
-
-    public void removeById(int taskId) {
-        String sql = "DELETE FROM tasks WHERE id =?";
-        Connection connection = null;
-        PreparedStatement statement = null;
+    
+    public Tasks removeById(Integer id){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            //Criação da conexão com o banco de dados
-            connection = connectionFactory.getConnection();
-
-            //Preparando a query
-            statement = connection.prepareStatement(sql);
-
-            //Setando os valores
-            statement.setInt(1, taskId);
-
-            //Executando a query
-            statement.execute();
-        } catch (SQLException ex) {
+            Tasks task = entityManager.find(Tasks.class, id);
+            entityManager.getTransaction().begin();
+            entityManager.remove(task.getId());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            System.err.println(e);         
         } finally {
-            connectionFactory.closeConnection(connection, statement);
+            entityManager.close();
+            entityManagerFactory.close();
         }
-
+        return null;
     }
 
     public List<Tasks> getAll(int id_Project) {

@@ -1,16 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-/**
- *
- * @author Lucio
- */
-public class Tasks {
+@Entity
+@Table(name = "tasks")
+public class Tasks{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int id_project;
     private String description;
@@ -20,8 +22,6 @@ public class Tasks {
     private Date deadline;
     private Date createdAt;
     private Date updatedAt;
-
-
 
     public Tasks(int id, int id_project, String description, String name, boolean status, String note, Date deadline, Date createdAt, Date updatedAt) {
         this.id = id;
@@ -34,8 +34,8 @@ public class Tasks {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    
-        public Tasks() {
+
+    public Tasks() {
         this.createdAt = new Date();
     }
 
@@ -116,11 +116,4 @@ public class Tasks {
         return this.name;
     }
 
-    
-
-
-    
-    
-    
-    
 }

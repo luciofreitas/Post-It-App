@@ -44,7 +44,6 @@ public class projectController {
             entityManager.getTransaction().begin();
             entityManager.remove(project.getId());
             entityManager.getTransaction().commit();
-
         } catch (Exception e) {
             System.err.println(e);
         } finally {
