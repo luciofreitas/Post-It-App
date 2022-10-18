@@ -10,7 +10,7 @@ import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import model.Tasks;
+import model.Task;
 
 /**
  *
@@ -28,7 +28,7 @@ public class DeadlineColumnCellRenderer extends DefaultTableCellRenderer {
         label.setHorizontalAlignment(CENTER);
 
         TaskTableModel taskModel = (TaskTableModel) table.getModel();
-        Tasks task = taskModel.getTasks().get(row);
+        Task task = taskModel.getTasks().get(row);
 
         if (task.getDeadline().after(new Date())) {
             label.setBackground(Color.YELLOW);

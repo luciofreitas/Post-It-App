@@ -4,13 +4,13 @@
  */
 package view;
 
-import controller.tasksController;
+import controller.taskController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import model.Project;
-import model.Tasks;
+import model.Task;
 
 /**
  *
@@ -18,9 +18,9 @@ import model.Tasks;
  */
 public class TaskDialogScreen extends javax.swing.JDialog {
 
-    tasksController controller;
+    taskController controller;
     Project project;
-    Tasks task;
+    Task task;
 
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,7 +28,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         hideErrorFields();
         setLocationRelativeTo(null);
 
-        controller = new tasksController();
+        controller = new taskController();
 
     }
 
@@ -38,7 +38,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         this.isInsert = isInsert;
     }
 
-    public void setTask(Tasks task) throws ParseException {
+    public void setTask(Task task) throws ParseException {
 
         if (!isInsert) {
             this.task = task;
@@ -205,7 +205,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
             if (isFieldsValid()) {
                 if (!jTextFieldName.getText().isEmpty() || jFormattedTextFieldDeadline.getText().isEmpty()) {
                     if (isInsert) {
-                        Tasks task = new Tasks();
+                        Task task = new Task();
                         task.setId_project(project.getId());
                         task.setName(jTextFieldName.getText());
                         task.setDescription(jTextAreaDescription.getText());

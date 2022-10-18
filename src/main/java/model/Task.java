@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tasks")
-public class Tasks{
+public class Task{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Tasks{
     private Date createdAt;
     private Date updatedAt;
 
-    public Tasks(int id, int id_project, String description, String name, boolean status, String note, Date deadline, Date createdAt, Date updatedAt) {
+    public Task(int id, int id_project, String description, String name, boolean status, String note, Date deadline, Date createdAt, Date updatedAt) {
         this.id = id;
         this.id_project = id_project;
         this.description = description;
@@ -35,7 +35,7 @@ public class Tasks{
         this.updatedAt = updatedAt;
     }
 
-    public Tasks() {
+    public Task() {
         this.createdAt = new Date();
     }
 

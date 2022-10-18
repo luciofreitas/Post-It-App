@@ -1,7 +1,7 @@
 package view;
 
 import controller.projectController;
-import controller.tasksController;
+import controller.taskController;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Project;
-import model.Tasks;
+import model.Task;
 import util.ButtonColumnCellRenderer;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
@@ -26,7 +26,7 @@ import util.TaskTableModel;
 public class MainScreen extends javax.swing.JFrame {
 
     projectController projectController;
-    tasksController tasksController;
+    taskController tasksController;
     DefaultListModel projectsModel;
     TaskTableModel tasksModel;
     Project project;
@@ -364,7 +364,7 @@ public class MainScreen extends javax.swing.JFrame {
     private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTasksMouseClicked
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
-        Tasks task = tasksModel.getTasks().get(rowIndex);
+        Task task = tasksModel.getTasks().get(rowIndex);
         switch (columnIndex) {
             case 3:
                 tasksController.update(task);
@@ -392,13 +392,13 @@ public class MainScreen extends javax.swing.JFrame {
                 break;
 
             case 5:
+
                 int confirmRemove = JOptionPane.showConfirmDialog(null, "Do you really want to exclude the task? ", "Remove", JOptionPane.YES_NO_OPTION);
                 if (confirmRemove == JOptionPane.YES_OPTION) {
                     tasksController.removeById(task.getId());
                     tasksModel.getTasks().remove(task);
                     int projectIndex = jListProjects.getSelectedIndex();
                     Project project = (Project) projectsModel.get(projectIndex);
-
                     loadTasks(project.getId());
                 }
 
@@ -499,7 +499,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     public void initDataController() {
         projectController = new projectController();
-        tasksController = new tasksController();
+        tasksController = new taskController();
     }
 
     public void initComponentsModel() {
@@ -517,7 +517,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     public void loadTasks(int id_project) {
-        List<Tasks> tasks = tasksController.getAll(id_project);
+        List<Task> tasks = tasksController.getAll(id_project);
         tasksModel.setTasks(tasks);
         showJTableTasks(!tasks.isEmpty());
 
@@ -555,5 +555,5 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setModel(projectsModel);
 
     }
-    
+
 }

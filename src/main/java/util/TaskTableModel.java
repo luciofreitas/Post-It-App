@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import model.Tasks;
+import model.Task;
 
 /**
  *
@@ -18,7 +18,7 @@ import model.Tasks;
 public class TaskTableModel extends AbstractTableModel {
 
     String[] columns = {"Name", "Description", "Deadline", "Status", "Edit", "Cancel"};
-    List<Tasks> tasks = new ArrayList<>();
+    List<Task> tasks = new ArrayList<>();
 
     @Override
     public int getRowCount() {
@@ -77,11 +77,11 @@ public class TaskTableModel extends AbstractTableModel {
         return columns;
     }
 
-    public List<Tasks> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Tasks> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
     
