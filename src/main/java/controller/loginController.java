@@ -9,6 +9,9 @@ import view.MainScreen;
 import controller.registerController;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 public class loginController {
@@ -21,6 +24,14 @@ public class loginController {
         this.view = view;
     }
 
+//    public boolean authenticateUserPassword(User autUser){
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistenceUnit");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        
+//        entityManager.getTransaction().begin();
+//        entityManager.
+//        entityManager.getTransaction().commit();
+//    }
     public boolean authenticateUserPassword(User autUser) throws SQLException {
         System.out.println(autUser);
         String sql = "SELECT * FROM users WHERE login = ? and password = ?";
